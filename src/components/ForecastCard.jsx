@@ -1,4 +1,4 @@
-export default function ForecastCard({ forecast }) {
+export default function ForecastCard({ forecast, unit }) {
   if (!forecast) return null;
 
   return (
@@ -11,7 +11,9 @@ export default function ForecastCard({ forecast }) {
             alt="icon"
             className="mx-auto"
           />
-          <p>{Math.round(item.main.temp)}°C</p>
+          <p>
+            {Math.round(item.main.temp)}° {unit === "metric" ? "C" : "F"}
+          </p>
           <p>{item.weather[0].main}</p>
         </div>
       ))}

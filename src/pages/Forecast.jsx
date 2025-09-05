@@ -9,6 +9,7 @@ const API_KEY = import.meta.env.VITE_API_KEY;
 export default function Forecast() {
   const [forecast, setForecast] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [unit, setUnit] = useState("metric"); 
 
   const fetchForecast = async (city) => {
     try {
@@ -19,7 +20,7 @@ export default function Forecast() {
           params: {
             q: city,
             appid: API_KEY,
-            units: "metric",
+            units: unit,
           },
         }
       );
@@ -27,7 +28,6 @@ export default function Forecast() {
     } catch (err) {
       alert("City not found or network error");
       console.log(err);
-      
     } finally {
       setLoading(false);
     }
@@ -36,12 +36,16 @@ export default function Forecast() {
   return (
     <div className="p-4">
       <h1 className="text-2xl font-bold mb-4">5-Day Forecast</h1>
-      <SearchBar onSearch={fetchForecast} />
+      <SearchBar
+        onSearch={fetchForecast}
+        onUnitChange={setUnit}
+        unit={unit}
+      />
       {loading ? (
         <p className="text-gray-500 mt-4"><Spinner /></p>
       ) : (
-        <ForecastCard forecast={forecast} />
+        <ForecastCard forecast={forecast} unit={unit} />
       )}
     </div>
-   );
+  );
 }
